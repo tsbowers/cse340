@@ -18,7 +18,7 @@ const app = express();
   */
 
 // Serve static files from the public directory
-app.use("/public", express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
 
