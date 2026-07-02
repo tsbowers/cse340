@@ -13,7 +13,7 @@
     --card: #FFFFFF;
     --text: #1F2A1F;      /* dark natural charcoal-green */
     --muted: #4B5B4C;
-    --accent: #ffffff;    /* muted sage accent */
+    --accent: #A3B18A;    /* muted sage accent */
     --white: #ffffff;
     --border: #D9E2D3;
 }
@@ -106,7 +106,7 @@ h2 {
 
 p {
     font-size: 1.05rem;
-    color: var(--muted);
+    color: var(--white);
     margin-bottom: 22px;
 }
 
@@ -120,7 +120,7 @@ p {
 }
 
 /* ==========================
-   FOOTER
+   FOOTER 
 ========================== */
 footer {
     background: var(--primary);
@@ -130,6 +130,7 @@ footer {
     margin-top: auto;
     border-top: 3px solid var(--accent);
     font-weight: 500;
+
 }
 
 /* ==========================
