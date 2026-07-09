@@ -2,12 +2,25 @@
 
 <main>
     <h1><%= title %></h1>
-        <h2>Upcoming Service Projects</h2>
-<ul>
-    <li>Park Cleanup - Join us to clean up local parks and make them beautiful!</li>
-    <li>Food Drive - Help collect and distribute food to those in need.</li>
-    <li>Community Tutoring - Volunteer to tutor students in various subjects.</li>
-</ul>
-    </main>
+    <h2>Upcoming Service Projects</h2>
+    
+    <ul>
+        <% projects.forEach(project => { %>
+            <% 
+               // Safely parse and format the date string to a user-friendly style
+               const formattedDate = new Date(project.project_date).toLocaleDateString('en-US', {
+                   year: 'numeric',
+                   month: 'long',
+                   day: 'numeric',
+                   timeZone: 'UTC' // Prevents local timezone shifts from changing the date
+               });
+            %>
+            <li>
+                <strong><%= formattedDate %>:</strong> <%= project.title %> (<%= project.organization_name %>)
+                <p><em>Location: <%= project.project_location %></em> — <%= project.description %></p>
+            </li>
+        <% }); %>
+    </ul>
+</main>
 
 <%- include('partials/footer') %>
