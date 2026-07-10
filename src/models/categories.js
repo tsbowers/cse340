@@ -1,9 +1,6 @@
-// src/models/categories.js
-import { pool } from './db.js'; // Adjust if your pool export is named differently in db.js
+import pool from './db.js';
 
-/**
- * Retrieves all categories from the database sorted alphabetically.
- */
+
 export async function getAllCategories() {
     const queryText = 'SELECT category_id, name FROM category ORDER BY name ASC;';
     try {
