@@ -2,17 +2,20 @@
 
 <main>
     <h1><%= title %></h1>
- <section>
+    
+    <section>
         <h2>Service Project Categories</h2>
 
-        <ul>
-            <li>Environmental</li>
-            <li>Educational</li>
-            <li>Community Service</li>
-            <li>Health and Wellness</li>
-        </ul>
+        <% if (categories && categories.length > 0) { %>
+            <ul>
+                <% categories.forEach(category => { %>
+                    <li><%= category.name %></li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>No categories found at this time.</p>
+        <% } %>
     </section>
-    
 </main>
 
 <%- include('partials/footer') %>

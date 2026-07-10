@@ -1,6 +1,5 @@
--- =======================================================
 -- 1. Create Organization Table
--- =======================================================
+
 CREATE TABLE organization (
     organization_id SERIAL PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
@@ -9,9 +8,8 @@ CREATE TABLE organization (
     logo_filename VARCHAR(255) NOT NULL
 );
 
--- =======================================================
 -- 2. Create Project Table
--- =======================================================
+
 CREATE TABLE project (
     project_id SERIAL PRIMARY KEY,
     organization_id INT NOT NULL,
@@ -25,17 +23,15 @@ CREATE TABLE project (
         ON DELETE CASCADE
 );
 
--- =======================================================
--- 3. Create Category Table (Assignment New)
--- =======================================================
+-- 3. Create Category Table 
+
 CREATE TABLE category (
     category_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE
 );
 
--- =======================================================
--- 4. Create Many-to-Many Junction Table (Assignment New)
--- =======================================================
+-- 4. Create Many-to-Many Junction Table 
+
 CREATE TABLE project_category (
     project_id INT NOT NULL,
     category_id INT NOT NULL,
@@ -44,18 +40,16 @@ CREATE TABLE project_category (
     CONSTRAINT fk_category FOREIGN KEY (category_id) REFERENCES category(category_id) ON DELETE CASCADE
 );
 
--- =======================================================
 -- 5. Insert Sample Data: Organizations
--- =======================================================
+
 INSERT INTO organization (name, description, contact_email, logo_filename) 
 VALUES 
 ('BrightFuture Builders', 'A nonprofit focused on improving community infrastructure through sustainable construction projects.', 'info@brightfuturebuilders.org', 'brightfuture-logo.png'),
 ('GreenHarvest Growers', 'An urban farming collective promoting food sustainability and education in local neighborhoods.', 'contact@greenharvest.org', 'greenharvest-logo.png'),
 ('UnityServe Volunteers', 'A volunteer coordination group supporting local charities and service initiatives.', 'hello@unityserve.org', 'unityserve-logo.png');
 
--- =======================================================
 -- 6. Insert Sample Data: Projects
--- =======================================================
+
 INSERT INTO project (organization_id, title, description, location, date)
 VALUES
 (1, 'Community Center Ramp', 'Building an accessibility ramp for the local center.', 'Downtown Hub', '2026-08-12'),
@@ -76,17 +70,16 @@ VALUES
 (3, 'Animal Shelter Walking', 'Walking and socializing rescue dogs.', 'Happy Tails Shelter', '2026-09-22'),
 (3, 'Highway Clean Up', 'Removing litter from the local state highway segment.', 'Mile Marker 42', '2026-10-05');
 
--- =======================================================
--- 7. Insert Sample Data: Categories (Assignment New)
--- =======================================================
+-- 7. Insert Sample Data: Categories 
+
 INSERT INTO category (name) VALUES 
 ('Construction & Infrastructure'),
 ('Agriculture & Sustainability'),
 ('Community Service & Education');
 
--- =======================================================
--- 8. Link Projects to Categories (Assignment New)
--- =======================================================
+
+-- 8. Link Projects to Categories
+
 INSERT INTO project_category (project_id, category_id) VALUES
 (1, 1), (2, 1), (3, 1), (4, 1), (5, 1),
 (6, 2), (7, 2), (8, 2), (9, 2), (10, 2),

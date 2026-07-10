@@ -3,12 +3,11 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
 import { getAllOrganizations } from './src/models/organizations.js';
-import { getAllProjects } from './src/models/projects.js'; // 1. Import your new model function
+import { getAllProjects } from './src/models/projects.js';
+import { getAllCategories } from './src/models/categories.js';
 
-// Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 
-// Define the port number the server will listen on
 const PORT = process.env.PORT || 3000;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -52,8 +51,16 @@ app.get('/projects', async (req, res) => {
 });
 
 app.get("/categories", async (req, res) => {
-    const title = "Service Categories";
-    res.render("categories", { title });
+    try {
+        const title = "Service Categories";
+        const categories = await getAllCategories(); // Fetch categories from database
+        
+        // Pass title and the categories array to your view
+        res.render("categories", { title, categories });
+    } catch (error) {
+        console.error('Error loading categories page:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 app.listen(PORT, async () => {
