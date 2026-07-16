@@ -7,16 +7,22 @@
     <ul>
         <% projects.forEach(project => { %>
             <% 
-               // Safely parse and format the date string to a user-friendly style
-               const formattedDate = new Date(project.project_date).toLocaleDateString('en-US', {
-                   year: 'numeric',
-                   month: 'long',
-                   day: 'numeric',
-                   timeZone: 'UTC' // Prevents local timezone shifts from changing the date
-               });
+                // Safely parse and format the date string to a user-friendly style
+                const formattedDate = new Date(project.project_date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    timeZone: 'UTC' // Prevents local timezone shifts from changing the date
+                });
             %>
             <li>
-                <strong><%= formattedDate %>:</strong> <%= project.title %> (<%= project.organization_name %>)
+                <strong><%= formattedDate %>:</strong> 
+                <!-- Link to the specific project details page -->
+                <a href="/project/<%= project.project_id %>"><%= project.title %></a> 
+                
+                <!-- Link to the specific organization details page -->
+                (<a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a>)
+                
                 <p><em>Location: <%= project.project_location %></em> — <%= project.description %></p>
             </li>
         <% }); %>
