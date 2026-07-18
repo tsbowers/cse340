@@ -30,7 +30,7 @@ const showProjectDetailsPage = async (req, res) => {
         res.render('project', { 
             title: project.title, 
             project,
-            categories // Passed to the view to generate tags dynamically
+            categories 
         });
     } catch (error) {
         console.error('Error fetching project details:', error);
