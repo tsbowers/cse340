@@ -1,4 +1,5 @@
-import pool from './db.js';
+// src/models/projects.js
+import { pool } from './db.js';
 
 export async function getAllProjects() {
     const queryText = `
@@ -6,12 +7,12 @@ export async function getAllProjects() {
             p.project_id,
             p.title,
             p.description,
-            p.project_location,
-            p.project_date,
+            p.location AS project_location,
+            p.date AS project_date,
             o.name AS organization_name
-        FROM service_project p
+        FROM project p
         JOIN organization o ON p.organization_id = o.organization_id
-        ORDER BY p.project_date ASC;
+        ORDER BY p.date ASC;
     `;
     const { rows } = await pool.query(queryText);
     return rows;
@@ -24,11 +25,11 @@ const getProjectsByOrganizationId = async (organizationId) => {
             organization_id,
             title,
             description,
-            project_location,
-            project_date
-        FROM service_project
+            location AS project_location,
+            date AS project_date
+        FROM project
         WHERE organization_id = $1
-        ORDER BY project_date;
+        ORDER BY date;
     `;
       
     const queryParams = [organizationId];
@@ -47,14 +48,14 @@ export async function getUpcomingProjects(number_of_projects) {
             p.project_id,
             p.title,
             p.description,
-            p.project_location,
-            p.project_date,
+            p.location AS project_location,
+            p.date AS project_date,
             p.organization_id,
             o.name AS organization_name
-        FROM service_project p
+        FROM project p
         JOIN organization o ON p.organization_id = o.organization_id
-        WHERE p.project_date >= CURRENT_DATE
-        ORDER BY p.project_date ASC
+        WHERE p.date >= CURRENT_DATE
+        ORDER BY p.date ASC
         LIMIT $1;
     `;
     const { rows } = await pool.query(queryText, [number_of_projects]);
@@ -71,11 +72,11 @@ export async function getProjectDetails(id) {
             p.project_id,
             p.title,
             p.description,
-            p.project_location,
-            p.project_date,
+            p.location AS project_location,
+            p.date AS project_date,
             p.organization_id,
             o.name AS organization_name
-        FROM service_project p
+        FROM project p
         JOIN organization o ON p.organization_id = o.organization_id
         WHERE p.project_id = $1;
     `;
