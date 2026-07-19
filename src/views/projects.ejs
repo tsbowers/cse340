@@ -7,22 +7,25 @@
     <ul>
         <% projects.forEach(project => { %>
             <% 
-                const formattedDate = new Date(project.project_date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    timeZone: 'UTC' // Prevents local timezone shifts from changing the date
-                });
+                const rawDate = project.project_date || project.date;
+                const formattedDate = rawDate 
+                    ? new Date(rawDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        timeZone: 'UTC'
+                      })
+                    : 'Date TBD';
             %>
             <li>
                 <strong><%= formattedDate %>:</strong> 
-                <!-- Link to the specific project details page -->
-                <a href="/project/<%= project.project_id %>"><%= project.title %></a> 
+                <a href="/project/<%= project.project_id %>"><%= project.title || 'Untitled Project' %></a> 
                 
-                <!-- Link to the specific organization details page -->
-                (<a href="/organization/<%= project.organization_id %>"><%= project.organization_name %></a>)
+                <% if (project.organization_id) { %>
+                    (<a href="/organization/<%= project.organization_id %>"><%= project.organization_name || 'View Organization' %></a>)
+                <% } %>
                 
-                <p><em>Location: <%= project.project_location %></em> — <%= project.description %></p>
+                <p><em>Location: <%= project.project_location || project.location || 'Remote/TBD' %></em> — <%= project.description || '' %></p>
             </li>
         <% }); %>
     </ul>

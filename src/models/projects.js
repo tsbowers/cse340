@@ -1,4 +1,3 @@
-// src/models/projects.js
 import pool from './db.js';
 
 export async function getAllProjects() {
@@ -84,7 +83,6 @@ export async function getProjectDetails(id) {
     return rows[0] || null;
 }
 
-// Export the model functions (using ES Module syntax)
 export { 
     getProjectsByOrganizationId 
 };
