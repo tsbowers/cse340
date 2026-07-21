@@ -1,6 +1,9 @@
 // src/models/projects.js
 import { pool } from './db.js';
 
+/**
+ * Retrieves all projects from the database
+ */
 export async function getAllProjects() {
     const queryText = `
         SELECT 
@@ -18,7 +21,11 @@ export async function getAllProjects() {
     return rows;
 }
 
-const getProjectsByOrganizationId = async (organizationId) => {
+/**
+ * Retrieves projects belonging to a specific organization
+ * @param {number|string} organizationId 
+ */
+export async function getProjectsByOrganizationId(organizationId) {
     const query = `
         SELECT
             project_id,
@@ -34,9 +41,8 @@ const getProjectsByOrganizationId = async (organizationId) => {
       
     const queryParams = [organizationId];
     const result = await pool.query(query, queryParams);
-
     return result.rows;
-};
+}
 
 /**
  * Retrieves the next N upcoming service projects from today onward
@@ -84,6 +90,21 @@ export async function getProjectDetails(id) {
     return rows[0] || null;
 }
 
-export { 
-    getProjectsByOrganizationId 
-};
+/**
+ * Retrieves all categories associated with a given service project
+ * Required for displaying category tags on the project details page
+ * @param {number|string} projectId 
+ */
+export async function getCategoriesByProjectId(projectId) {
+    const queryText = `
+        SELECT 
+            c.category_id,
+            c.name
+        FROM category c
+        JOIN project_category pc ON c.category_id = pc.category_id
+        WHERE pc.project_id = $1
+        ORDER BY c.name ASC;
+    `;
+    const { rows } = await pool.query(queryText, [projectId]);
+    return rows;
+}
