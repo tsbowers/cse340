@@ -1,0 +1,51 @@
+<%- include('partials/header') %>
+
+<main class="container">
+    <h1><%= title || project.title || 'Untitled Project' %></h1>
+
+    <% 
+        const rawDate = project.project_date || project.date;
+        const formattedDate = rawDate 
+            ? new Date(rawDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                timeZone: 'UTC'
+              })
+            : 'Date TBD';
+    %>
+
+    <p><strong>Date:</strong> <%= formattedDate %></p>
+    <p><strong>Location:</strong> <%= project.project_location || project.location || 'Remote/TBD' %></p>
+    
+    <% if (project.organization_id) { %>
+        <p>
+            <strong>Organization:</strong> 
+            <a href="/organization/<%= project.organization_id %>">
+                <%= project.organization_name || 'View Organization' %>
+            </a>
+        </p>
+    <% } %>
+
+    <p><strong>Description:</strong> <%= project.description || 'No description provided.' %></p>
+
+    <!-- Category Tags Section (Required by Rubric) -->
+    <div class="category-tags">
+        <h3>Categories:</h3>
+        <% if (categories && categories.length > 0) { %>
+            <ul>
+                <% categories.forEach(category => { %>
+                    <li>
+                        <a href="/category/<%= category.category_id || category.id %>" class="tag">
+                            <%= category.category_name || category.name %>
+                        </a>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>No categories assigned to this project.</p>
+        <% } %>
+    </div>
+</main>
+
+<%- include('partials/footer') %>
