@@ -6,11 +6,17 @@ import {
   processNewOrganizationForm 
 } from './controllers/organizations.js';
 import { showHomePage } from './controllers/index.js';
-import { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm } from './controllers/projects.js';
-import { showCategoriesPage, showCategoryDetailsPage, showNewCategoryForm, processNewCategoryForm } from './controllers/categories.js'; 
+import express from 'express';
+import { 
+  showOrganizationsPage, 
+  showOrganizationDetailsPage, 
+  showNewOrganizationForm, 
+  processNewOrganizationForm 
+} from './controllers/organizations.js';
+import { showHomePage } from './controllers/index.js';
+import { showProjectsPage, showProjectDetailsPage } from './controllers/projects.js';
+import { showCategoriesPage, showCategoryDetailsPage } from './controllers/categories.js'; 
 import { testErrorPage } from './controllers/errors.js';
-import { showUsersPage, showUserDetailsPage, showNewUserForm } from './controllers/users.js';
-import { showDonationDetailsPage, showNewDonationForm } from './controllers/donations.js';
 
 const router = express.Router();
 
