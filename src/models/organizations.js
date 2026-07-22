@@ -6,7 +6,7 @@ const getAllOrganizations = async() => {
       FROM public.organization;
     `;
 
-    const result = await db.query(query);
+    const result = await pool.query(query);
 
     return result.rows;
 }
@@ -23,7 +23,7 @@ const getOrganizationDetails = async (organizationId) => {
     `;
 
       const queryParams = [organizationId];
-      const result = await db.query(query, queryParams);
+      const result = await pool.query(query, queryParams);
 
       // Return the first row of the result set, or null if no rows are found
       return result.rows.length > 0 ? result.rows[0] : null;
@@ -45,7 +45,7 @@ const createOrganization = async (name, description, contactEmail, logoFilename)
     `;
 
     const queryParams = [name, description, contactEmail, logoFilename];
-    const result = await db.query(query, queryParams);
+    const result = await pool.query(query, queryParams);
 
     if (result.rows.length === 0) {
         throw new Error('Failed to create organization');
