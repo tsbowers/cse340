@@ -6,14 +6,6 @@ import {
   processNewOrganizationForm 
 } from './controllers/organizations.js';
 import { showHomePage } from './controllers/index.js';
-import express from 'express';
-import { 
-  showOrganizationsPage, 
-  showOrganizationDetailsPage, 
-  showNewOrganizationForm, 
-  processNewOrganizationForm 
-} from './controllers/organizations.js';
-import { showHomePage } from './controllers/index.js';
 import { showProjectsPage, showProjectDetailsPage } from './controllers/projects.js';
 import { showCategoriesPage, showCategoryDetailsPage } from './controllers/categories.js'; 
 import { testErrorPage } from './controllers/errors.js';
