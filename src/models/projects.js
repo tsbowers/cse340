@@ -108,3 +108,33 @@ export async function getCategoriesByProjectId(projectId) {
     const { rows } = await pool.query(queryText, [projectId]);
     return rows;
 }
+
+/**
+ * Inserts a new service project into the database.
+ * @param {string} title - The title of the project.
+ * @param {string} description - A description of the project.
+ * @param {string} location - The location of the project.
+ * @param {string} date - The date of the project.
+ * @param {number|string} organizationId - The id of the organization hosting the project.
+ * @returns {number} The id of the newly created project record.
+ */
+export async function createProject(title, description, location, date, organizationId) {
+    const queryText = `
+        INSERT INTO project (title, description, location, date, organization_id)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING project_id;
+    `;
+
+    const queryParams = [title, description, location, date, organizationId];
+    const result = await pool.query(queryText, queryParams);
+
+    if (result.rows.length === 0) {
+        throw new Error('Failed to create project');
+    }
+
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
+        console.log('Created new project with ID:', result.rows[0].project_id);
+    }
+
+    return result.rows[0].project_id;
+}
