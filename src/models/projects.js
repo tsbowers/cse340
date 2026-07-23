@@ -138,3 +138,39 @@ export async function createProject(title, description, location, date, organiza
 
     return result.rows[0].project_id;
 }
+
+/**
+ * Updates an existing service project in the database.
+ * @param {number|string} id - The id of the project to update.
+ * @param {string} title - The title of the project.
+ * @param {string} description - A description of the project.
+ * @param {string} location - The location of the project.
+ * @param {string} date - The date of the project.
+ * @param {number|string} organizationId - The id of the organization hosting the project.
+ * @returns {number} The id of the updated project record.
+ */
+export async function updateProject(id, title, description, location, date, organizationId) {
+    const queryText = `
+        UPDATE project
+        SET title = $1,
+            description = $2,
+            location = $3,
+            date = $4,
+            organization_id = $5
+        WHERE project_id = $6
+        RETURNING project_id;
+    `;
+
+    const queryParams = [title, description, location, date, organizationId, id];
+    const result = await pool.query(queryText, queryParams);
+
+    if (result.rows.length === 0) {
+        throw new Error(`Failed to update project with id ${id}`);
+    }
+
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
+        console.log('Updated project with ID:', result.rows[0].project_id);
+    }
+
+    return result.rows[0].project_id;
+}
