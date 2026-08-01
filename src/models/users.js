@@ -54,6 +54,23 @@ const findUserByEmail = async (email) => {
 };
 
 /**
+ * Retrieves all registered users along with their role name.
+ * Used for the admin-only users page.
+ * @returns {Array<object>} List of users with name, email, and role_name.
+ */
+const getAllUsers = async () => {
+    const query = `
+        SELECT u.user_id, u.name, u.email, r.role_name
+        FROM users u
+        JOIN roles r ON u.role_id = r.role_id
+        ORDER BY u.name ASC;
+    `;
+
+    const result = await pool.query(query);
+    return result.rows;
+};
+
+/**
  * Compares a plain text password against a bcrypt hash.
  * @param {string} password - The plain text password to check.
  * @param {string} passwordHash - The stored bcrypt hash to compare against.
@@ -89,4 +106,4 @@ const authenticateUser = async (email, password) => {
     return safeUser;
 };
 
-export { createUser, authenticateUser };
+export { createUser, authenticateUser, getAllUsers };

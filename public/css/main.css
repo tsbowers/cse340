@@ -1,9 +1,3 @@
-/* ==========================
-   Fonts
-   Fraunces (warm, slightly organic serif) for headings —
-   pairs with Inter for body/UI text without falling back to
-   generic sans-everywhere.
-========================== */
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* ==========================
@@ -330,6 +324,50 @@ textarea:focus {
 .link-list a:hover {
     color: var(--primary);
     background: var(--bg);
+}
+
+/* ==========================
+   DATA TABLE
+   Used for /users (admin) — simple bordered table matching the
+   park ranger theme's card/border language.
+========================== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+}
+
+.data-table th,
+.data-table td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+    font-family: "Fraunces", Georgia, serif;
+    color: var(--primary);
+    font-weight: 600;
+    background: var(--bg);
+}
+
+.data-table tbody tr:hover {
+    background: var(--bg);
+}
+
+.role-badge {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--primary-dark);
+}
+
+.role-badge.admin {
+    background: var(--blaze);
+    color: var(--white);
 }
 
 /* ==========================

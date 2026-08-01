@@ -38,7 +38,8 @@ import {
     processLogout,
     requireLogin,
     requireRole,
-    showDashboard
+    showDashboard,
+    showUsersPage
 } from './controllers/users.js';
 
 const router = express.Router();
@@ -93,6 +94,9 @@ router.get('/logout', processLogout);
 
 // Protected dashboard route
 router.get('/dashboard', requireLogin, showDashboard);
+
+// Admin-only users page
+router.get('/users', requireLogin, requireRole('admin'), showUsersPage);
 
 // Test Error Route
 router.get('/test-error', testErrorPage);

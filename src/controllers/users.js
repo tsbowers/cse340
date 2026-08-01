@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser } from '../models/users.js';
+import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
 
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
@@ -88,7 +88,7 @@ const requireRole = (role) => {
         }
 
         req.flash('error', 'You do not have permission to access that page.');
-        res.redirect('/');
+        res.redirect('/dashboard');
     };
 };
 
@@ -97,8 +97,19 @@ const showDashboard = (req, res) => {
     res.render('dashboard', {
         title: 'Dashboard',
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role_name
     });
+};
+
+const showUsersPage = async (req, res) => {
+    try {
+        const users = await getAllUsers();
+        res.render('users', { title: 'Registered Users', users });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).send('Internal Server Error');
+    }
 };
 
 export {
@@ -109,5 +120,6 @@ export {
     processLogout,
     requireLogin,
     requireRole,
-    showDashboard
+    showDashboard,
+    showUsersPage
 };
