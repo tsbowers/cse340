@@ -29,6 +29,22 @@
 
     <p><strong>Description:</strong> <%= project.description || 'No description provided.' %></p>
 
+    <!-- Volunteer Section: only visible to logged-in users -->
+    <% if (isLoggedIn) { %>
+        <div class="volunteer-section">
+            <% if (isUserVolunteering) { %>
+                <p><strong>You are volunteering for this project.</strong></p>
+                <form action="/project/<%= project.project_id %>/unvolunteer" method="POST">
+                    <button type="submit" class="button">Remove me as a volunteer</button>
+                </form>
+            <% } else { %>
+                <form action="/project/<%= project.project_id %>/volunteer" method="POST">
+                    <button type="submit" class="button">Volunteer for this project</button>
+                </form>
+            <% } %>
+        </div>
+    <% } %>
+
     <!-- Category Tags Section (Required by Rubric) -->
     <div class="category-tags">
         <h3>Categories:</h3>

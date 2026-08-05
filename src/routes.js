@@ -41,6 +41,7 @@ import {
     showDashboard,
     showUsersPage
 } from './controllers/users.js';
+import { processAddVolunteer, processRemoveVolunteer } from './controllers/volunteers.js';
 
 const router = express.Router();
 
@@ -70,6 +71,10 @@ router.post('/new-project', requireRole('admin'), projectValidation, processNewP
 // Edit Project Routes
 router.get('/edit-project/:id', requireRole('admin'), showEditProjectForm);
 router.post('/edit-project/:id', requireRole('admin'), projectValidation, processEditProjectForm);
+
+// Volunteer Sign-Up Routes (must be logged in)
+router.post('/project/:id/volunteer', requireLogin, processAddVolunteer);
+router.post('/project/:id/unvolunteer', requireLogin, processRemoveVolunteer);
 
 // New Category Form Routes
 router.get('/new-category', requireRole('admin'), showNewCategoryForm);

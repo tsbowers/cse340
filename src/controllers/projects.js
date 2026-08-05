@@ -1,6 +1,7 @@
 import { getUpcomingProjects, getProjectDetails, createProject, updateProject } from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/projects.js';
 import { getAllOrganizations } from '../models/organizations.js';
+import { isVolunteering } from '../models/volunteers.js';
 import { body, validationResult } from 'express-validator';
 
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
@@ -50,11 +51,19 @@ const showProjectDetailsPage = async (req, res) => {
         }
         
         const categories = await getCategoriesByProjectId(projectId);
+
+        // Determine whether the currently logged-in user is already
+        // volunteering for this project. Guests never need this check.
+        let isUserVolunteering = false;
+        if (req.session && req.session.user) {
+            isUserVolunteering = await isVolunteering(req.session.user.user_id, projectId);
+        }
         
         res.render('project', { 
             title: project.title, 
             project,
-            categories 
+            categories,
+            isUserVolunteering
         });
     } catch (error) {
         console.error('Error fetching project details:', error);
